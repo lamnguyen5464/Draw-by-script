@@ -1,33 +1,26 @@
 package com.example.digitalink.views
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.example.digitalink.StrokeManager
-import com.example.digitalink.models.DrawingSuggestion
 import com.example.digitalink.models.layer.DoubleBufferLayer
-import com.example.digitalink.models.layer.SimpleStrokesLayer
+import com.example.digitalink.models.layer.SuggestionLayer
 
 class DrawingView @JvmOverloads constructor(
     context: Context?,
     attributeSet: AttributeSet? = null
 ) :
     View(context, attributeSet) {
-    private lateinit var canvasBitmap: Bitmap
-    private val drawingSuggestion = context?.let { DrawingSuggestion(it) }
 
-    private val baseLayer = SimpleStrokesLayer()
-
+    private val suggestionLayer = context?.let { SuggestionLayer(it) }
     private var doubleBufferBaseLayer: DoubleBufferLayer? = null
 
-    private var currentTag: String? = null
-
-    fun drawTag(tag: String) {
-        currentTag = tag
-        invalidate()
+    fun suggest() {
+        suggestionLayer?.recognize {
+            invalidate()
+        }
     }
 
     override fun onSizeChanged(
@@ -40,7 +33,8 @@ class DrawingView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        doubleBufferBaseLayer?.onDraw(canvas)
+//        doubleBufferBaseLayer?.onDraw(canvas)
+        suggestionLayer?.onDraw(canvas)
 
 
 //        drawingSuggestion?.getDrawingOf(currentTag ?: "")?.let { obj ->
@@ -70,18 +64,14 @@ class DrawingView @JvmOverloads constructor(
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         doubleBufferBaseLayer?.onMotionEvent(event)
-        StrokeManager.addNewTouchEvent(event)
+        suggestionLayer?.onMotionEvent(event)
         invalidate()
         return true
     }
 
-    companion object {
-        private const val STROKE_WIDTH_DP = 5
-    }
-
     fun clear() {
-        currentTag = null
         doubleBufferBaseLayer?.onClear()
+        suggestionLayer?.onClear()
         invalidate()
     }
 }

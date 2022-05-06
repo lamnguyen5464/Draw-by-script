@@ -10,15 +10,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         StrokeManager.download()
         recognize.setOnClickListener {
-            StrokeManager.recognize(this) {
-                drawingView.clear()
-                StrokeManager.clear()
-                drawingView.drawTag(it.candidates[0].text)
-            }
+            drawingView.suggest()
+//            StrokeManager.recognize(this) {
+//                drawingView.clear()
+//                drawingView.drawTag(it.candidates[0].text)
+//            }
         }
         clear.setOnClickListener {
             drawingView.clear()
-            StrokeManager.clear()
         }
     }
 }

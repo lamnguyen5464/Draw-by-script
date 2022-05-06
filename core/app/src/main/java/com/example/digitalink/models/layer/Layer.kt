@@ -31,12 +31,12 @@ abstract class Layer {
     fun extend(currentPoint: Point) {
         alignTopLeft?.let {
             if (currentPoint.x < it.x) it.x = currentPoint.x
-            if (currentPoint.y > it.x) it.y = currentPoint.y
+            if (currentPoint.y > it.y) it.y = currentPoint.y
         }
 
         alignBottomRight?.let {
             if (currentPoint.x > it.x) it.x = currentPoint.x
-            if (currentPoint.y < it.x) it.y = currentPoint.y
+            if (currentPoint.y < it.y) it.y = currentPoint.y
         }
 
         if (alignTopLeft == null) {

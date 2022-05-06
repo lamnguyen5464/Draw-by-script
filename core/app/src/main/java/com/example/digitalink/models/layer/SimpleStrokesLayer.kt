@@ -9,8 +9,8 @@ import com.example.digitalink.models.lineTo
 import com.example.digitalink.models.moveTo
 
 open class SimpleStrokesLayer(
-    private val stroke: Path = Path(),
-    private val strokeStyle: StrokeStyle = StrokeStyle.defaultBlackStroke
+    internal val stroke: Path = Path(),
+    internal val strokeStyle: StrokeStyle = StrokeStyle.defaultBlackStroke
 ) : Layer() {
 
     override fun onDraw(canvas: Canvas) {

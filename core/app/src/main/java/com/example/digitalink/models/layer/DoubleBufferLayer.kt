@@ -11,9 +11,9 @@ import com.example.digitalink.models.StrokeStyle
 class DoubleBufferLayer(
     private val width: Int,
     private val height: Int,
-    private val stroke: Path = Path(),
-    private val strokeStyle: StrokeStyle = StrokeStyle.defaultBlackStroke,
-    private val canvasStyle: Paint = Paint(Paint.DITHER_FLAG)
+    private val canvasStyle: Paint = Paint(Paint.DITHER_FLAG),
+    stroke: Path = Path(),
+    strokeStyle: StrokeStyle = StrokeStyle.defaultBlackStroke
 ) : SimpleStrokesLayer(stroke, strokeStyle) {
 
     private var cacheCanvas: Canvas = Canvas()
