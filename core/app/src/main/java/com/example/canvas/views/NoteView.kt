@@ -1,4 +1,4 @@
-package com.example.digitalink.views
+package com.example.canvas.views
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,9 +6,9 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
-import com.example.digitalink.models.layer.DoubleBufferLayer
-import com.example.digitalink.models.layer.SuggestionLayer
-import com.example.digitalink.models.state.StateHolder
+import com.example.canvas.models.layer.DoubleBufferLayer
+import com.example.canvas.models.layer.SuggestionLayer
+import com.example.canvas.models.state.StateHolder
 import kotlinx.coroutines.*
 
 class NoteView @JvmOverloads constructor(
@@ -65,6 +65,7 @@ class NoteView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
         baseLayerState.getState().onDraw(canvas)
         suggestionLayer?.onDraw(canvas)
     }

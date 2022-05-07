@@ -1,13 +1,13 @@
-package com.example.digitalink.models.layer
+package com.example.canvas.models.layer
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.view.MotionEvent
-import com.example.digitalink.models.NotePoint
-import com.example.digitalink.models.StrokeStyleHolder
-import com.example.digitalink.models.state.State
+import com.example.canvas.models.NotePoint
+import com.example.canvas.models.StrokeStyleHolder
+import com.example.canvas.models.state.State
 
 class DoubleBufferLayer(
     private val width: Int = 1,

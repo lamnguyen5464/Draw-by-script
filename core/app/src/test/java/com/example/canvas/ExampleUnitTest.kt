@@ -1,4 +1,4 @@
-package com.example.digitalink
+package com.example.canvas
 
 import org.junit.Test
 

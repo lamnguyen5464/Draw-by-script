@@ -1,4 +1,4 @@
-package com.example.digitalink.models
+package com.example.canvas.models
 
 import android.graphics.Paint
 

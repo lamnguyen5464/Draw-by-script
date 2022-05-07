@@ -1,8 +1,8 @@
-package com.example.digitalink.models.layer
+package com.example.canvas.models.layer
 
 import android.graphics.Canvas
 import android.view.MotionEvent
-import com.example.digitalink.models.NotePoint
+import com.example.canvas.models.NotePoint
 
 abstract class Layer(
     var alignTopLeft: NotePoint? = null,

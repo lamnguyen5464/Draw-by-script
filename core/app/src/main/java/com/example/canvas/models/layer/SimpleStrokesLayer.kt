@@ -1,12 +1,12 @@
-package com.example.digitalink.models.layer
+package com.example.canvas.models.layer
 
 import android.graphics.Canvas
 import android.graphics.Path
 import android.view.MotionEvent
-import com.example.digitalink.models.NotePoint
-import com.example.digitalink.models.StrokeStyleHolder
-import com.example.digitalink.models.lineTo
-import com.example.digitalink.models.moveTo
+import com.example.canvas.models.NotePoint
+import com.example.canvas.models.StrokeStyleHolder
+import com.example.canvas.models.lineTo
+import com.example.canvas.models.moveTo
 
 open class SimpleStrokesLayer(
     internal val stroke: Path = Path(),

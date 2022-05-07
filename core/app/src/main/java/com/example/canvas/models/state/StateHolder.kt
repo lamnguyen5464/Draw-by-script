@@ -1,4 +1,4 @@
-package com.example.digitalink.models.state
+package com.example.canvas.models.state
 
 class StateHolder<T : State<T>>(
     initStateProducer: () -> T,

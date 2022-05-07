@@ -1,4 +1,4 @@
-package com.example.digitalink.utils
+package com.example.canvas.utils
 
 import android.util.Log
 import com.google.mlkit.common.MlKitException

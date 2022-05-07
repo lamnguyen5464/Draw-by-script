@@ -1,20 +1,20 @@
-package com.example.digitalink.models.layer
+package com.example.canvas.models.layer
 
 import android.content.Context
 import android.graphics.Path
 import android.view.MotionEvent
-import com.example.digitalink.models.DrawingSuggester
-import com.example.digitalink.models.DrawingSuggestingItem
-import com.example.digitalink.models.NotePoint
-import com.example.digitalink.models.StrokeStyleHolder
-import com.example.digitalink.utils.StrokeManager
+import com.example.canvas.models.DrawingSuggester
+import com.example.canvas.models.DrawingSuggestingItem
+import com.example.canvas.models.NotePoint
+import com.example.canvas.models.StrokeStyleHolder
+import com.example.canvas.utils.StrokeManager
 import com.google.mlkit.vision.digitalink.Ink
 
 class SuggestionLayer(
     context: Context,
     private var inkBuilder: Ink.Builder = Ink.builder(),
     private var strokeBuilder: Ink.Stroke.Builder = Ink.Stroke.builder(),
-    private val drawingSuggester: DrawingSuggester = DrawingSuggester(context),
+    private val drawingSuggester: DrawingSuggester = DrawingSuggester(),
     stroke: Path = Path(),
     strokeStyleHolder: StrokeStyleHolder = StrokeStyleHolder.tempStroke
 ) : SimpleStrokesLayer(stroke, strokeStyleHolder) {

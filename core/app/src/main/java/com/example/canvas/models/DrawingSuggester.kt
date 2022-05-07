@@ -1,12 +1,9 @@
-package com.example.digitalink.models
+package com.example.canvas.models
 
-import android.content.Context
-import com.example.digitalink.R
+import com.example.canvas.di.Providers
 import org.json.JSONObject
 
-class DrawingSuggester(context: Context) {
-    private val dataString = context.resources.openRawResource(R.raw.drawing_data)
-        .bufferedReader().use { it.readText() }
+class DrawingSuggester(dataString: String = Providers.dataSuggestionRaw) {
 
     private val data = try {
         JSONObject(dataString)
