@@ -7,8 +7,9 @@ import android.view.MotionEvent
 import android.view.View
 import com.example.digitalink.models.layer.DoubleBufferLayer
 import com.example.digitalink.models.layer.SuggestionLayer
+import kotlinx.coroutines.*
 
-class DrawingView @JvmOverloads constructor(
+class NoteView @JvmOverloads constructor(
     context: Context?,
     attributeSet: AttributeSet? = null
 ) :
@@ -16,11 +17,31 @@ class DrawingView @JvmOverloads constructor(
 
     private val suggestionLayer = context?.let { SuggestionLayer(it) }
     private var doubleBufferBaseLayer: DoubleBufferLayer? = null
+    private val debounceSuggestingScope = CoroutineScope(Dispatchers.IO + Job())
+    private var suggestingJob: Job? = null
+
+    private fun confirmDrawing() {
+        suggestionLayer?.let {
+            doubleBufferBaseLayer?.accumulate(it)
+            it.onClear()
+            startSuggesting()
+        }
+        invalidate()
+    }
+
+    private fun startSuggesting() {
+        if (suggestionLayer?.isEmpty() == false) {
+            suggestingJob?.cancel()
+            suggestingJob = debounceSuggestingScope.launch {
+                delay(1000)
+                suggest()
+            }
+        }
+    }
 
     fun suggest() {
         suggestionLayer?.recognize {
-            doubleBufferBaseLayer?.accumulate(suggestionLayer)
-            invalidate()
+            confirmDrawing()
         }
     }
 
@@ -36,10 +57,10 @@ class DrawingView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         doubleBufferBaseLayer?.onDraw(canvas)
         suggestionLayer?.onDraw(canvas)
+        startSuggesting()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-//        doubleBufferBaseLayer?.onMotionEvent(event)
         suggestionLayer?.onMotionEvent(event)
         invalidate()
         return true

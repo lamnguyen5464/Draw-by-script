@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.digitalink.R
 import org.json.JSONObject
 
-class DrawingSuggestion(context: Context) {
+class DrawingSuggester(context: Context) {
     private val dataString = context.resources.openRawResource(R.raw.drawing_data)
         .bufferedReader().use { it.readText() }
 

@@ -2,11 +2,11 @@ package com.example.digitalink.models.layer
 
 import android.graphics.Canvas
 import android.view.MotionEvent
-import com.example.digitalink.models.Point
+import com.example.digitalink.models.NotePoint
 
 abstract class Layer {
-    var alignTopLeft: Point? = null
-    var alignBottomRight: Point? = null
+    var alignTopLeft: NotePoint? = null
+    var alignBottomRight: NotePoint? = null
     private var level: Int? = null
     protected var childrenLayers: MutableList<Layer> = mutableListOf()
 
@@ -31,23 +31,23 @@ abstract class Layer {
 
     fun isFulFilled(): Boolean = this.alignBottomRight == null || this.alignTopLeft == null
 
-    fun extend(currentPoint: Point) {
+    fun extend(currentNotePoint: NotePoint) {
         alignTopLeft?.let {
-            if (currentPoint.x < it.x) it.x = currentPoint.x
-            if (currentPoint.y < it.y) it.y = currentPoint.y
+            if (currentNotePoint.x < it.x) it.x = currentNotePoint.x
+            if (currentNotePoint.y < it.y) it.y = currentNotePoint.y
         }
 
         alignBottomRight?.let {
-            if (currentPoint.x > it.x) it.x = currentPoint.x
-            if (currentPoint.y > it.y) it.y = currentPoint.y
+            if (currentNotePoint.x > it.x) it.x = currentNotePoint.x
+            if (currentNotePoint.y > it.y) it.y = currentNotePoint.y
         }
 
         if (alignTopLeft == null) {
-            alignTopLeft = currentPoint.clone()
+            alignTopLeft = currentNotePoint.clone()
         }
 
         if (alignBottomRight == null) {
-            alignBottomRight = currentPoint.clone()
+            alignBottomRight = currentNotePoint.clone()
         }
     }
 }

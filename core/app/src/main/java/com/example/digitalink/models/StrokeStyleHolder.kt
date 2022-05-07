@@ -2,9 +2,9 @@ package com.example.digitalink.models
 
 import android.graphics.Paint
 
-class StrokeStyle(private val paint: Paint = Paint()) {
+class StrokeStyleHolder(private val paint: Paint = Paint()) {
     companion object {
-        val defaultBlackStroke = StrokeStyle(Paint().apply {
+        val defaultBlackStroke = StrokeStyleHolder(Paint().apply {
             color = -0x1000000 // black
             isAntiAlias = true
             // Set stroke width based on display density.
@@ -14,7 +14,7 @@ class StrokeStyle(private val paint: Paint = Paint()) {
             strokeCap = Paint.Cap.ROUND
         })
 
-        val tempStroke = StrokeStyle(Paint().apply {
+        val tempStroke = StrokeStyleHolder(Paint().apply {
             color = -0x12f2f2f // black
             isAntiAlias = true
             // Set stroke width based on display density.

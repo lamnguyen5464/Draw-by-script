@@ -3,18 +3,18 @@ package com.example.digitalink.models.layer
 import android.graphics.Canvas
 import android.graphics.Path
 import android.view.MotionEvent
-import com.example.digitalink.models.Point
-import com.example.digitalink.models.StrokeStyle
+import com.example.digitalink.models.NotePoint
+import com.example.digitalink.models.StrokeStyleHolder
 import com.example.digitalink.models.lineTo
 import com.example.digitalink.models.moveTo
 
 open class SimpleStrokesLayer(
     internal val stroke: Path = Path(),
-    internal val strokeStyle: StrokeStyle = StrokeStyle.defaultBlackStroke
+    internal val strokeStyleHolder: StrokeStyleHolder = StrokeStyleHolder.defaultBlackStroke
 ) : Layer() {
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawPath(stroke, strokeStyle.getStyle())
+        canvas.drawPath(stroke, strokeStyleHolder.getStyle())
         this.childrenLayers.forEach {
             it.onDraw(canvas)
         }
@@ -30,23 +30,24 @@ open class SimpleStrokesLayer(
         val x = event.x
         val y = event.y
         when (action) {
-            MotionEvent.ACTION_DOWN -> moveStrokeTo(Point(x, y))
+            MotionEvent.ACTION_DOWN -> moveStrokeTo(NotePoint(x, y))
             MotionEvent.ACTION_MOVE,
-            MotionEvent.ACTION_UP -> lineStrokeTo(Point(x, y))
+            MotionEvent.ACTION_UP -> lineStrokeTo(NotePoint(x, y))
             else -> {}
         }
     }
 
-    internal fun moveStrokeTo(point: Point) {
-        this.stroke.moveTo(point)
+    internal fun moveStrokeTo(notePoint: NotePoint) {
+        this.stroke.moveTo(notePoint)
     }
 
-    internal fun lineStrokeTo(point: Point) {
-        this.stroke.lineTo(point)
+    internal fun lineStrokeTo(notePoint: NotePoint) {
+        this.stroke.lineTo(notePoint)
     }
 
     fun accumulate(layer: SimpleStrokesLayer) {
         this.stroke.addPath(layer.stroke)
-        layer.onClear()
     }
+
+    fun isEmpty() = this.stroke.isEmpty
 }

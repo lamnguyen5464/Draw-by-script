@@ -5,16 +5,16 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.view.MotionEvent
-import com.example.digitalink.models.Point
-import com.example.digitalink.models.StrokeStyle
+import com.example.digitalink.models.NotePoint
+import com.example.digitalink.models.StrokeStyleHolder
 
 class DoubleBufferLayer(
     private val width: Int,
     private val height: Int,
     private val canvasStyle: Paint = Paint(Paint.DITHER_FLAG),
     stroke: Path = Path(),
-    strokeStyle: StrokeStyle = StrokeStyle.defaultBlackStroke
-) : SimpleStrokesLayer(stroke, strokeStyle) {
+    strokeStyleHolder: StrokeStyleHolder = StrokeStyleHolder.defaultBlackStroke
+) : SimpleStrokesLayer(stroke, strokeStyleHolder) {
 
     private var cacheCanvas: Canvas = Canvas()
     private lateinit var cacheBitMap: Bitmap
@@ -34,11 +34,11 @@ class DoubleBufferLayer(
         val x = event.x
         val y = event.y
         when (action) {
-            MotionEvent.ACTION_DOWN -> super.moveStrokeTo(Point(x, y))
-            MotionEvent.ACTION_MOVE -> super.lineStrokeTo(Point(x, y))
+            MotionEvent.ACTION_DOWN -> super.moveStrokeTo(NotePoint(x, y))
+            MotionEvent.ACTION_MOVE -> super.lineStrokeTo(NotePoint(x, y))
             MotionEvent.ACTION_UP -> {
-                lineStrokeTo(Point(x, y))
-                cacheCanvas.drawPath(this.stroke, this.strokeStyle.getStyle())
+                lineStrokeTo(NotePoint(x, y))
+                cacheCanvas.drawPath(this.stroke, this.strokeStyleHolder.getStyle())
                 this.stroke.reset()
             }
             else -> {}
