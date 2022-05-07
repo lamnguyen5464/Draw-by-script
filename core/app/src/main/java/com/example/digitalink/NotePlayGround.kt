@@ -10,6 +10,11 @@ class NotePlayGround : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.note_play_ground)
         StrokeManager.download()
+
+        undo.setOnClickListener {
+            drawingView.undo()
+        }
+
         clear.setOnClickListener {
             drawingView.clear()
         }

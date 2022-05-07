@@ -4,11 +4,12 @@ import android.graphics.Canvas
 import android.view.MotionEvent
 import com.example.digitalink.models.NotePoint
 
-abstract class Layer {
-    var alignTopLeft: NotePoint? = null
-    var alignBottomRight: NotePoint? = null
-    private var level: Int? = null
+abstract class Layer(
+    var alignTopLeft: NotePoint? = null,
+    var alignBottomRight: NotePoint? = null,
+    private var level: Int? = null,
     protected var childrenLayers: MutableList<Layer> = mutableListOf()
+) {
 
     abstract fun onDraw(canvas: Canvas)
     abstract fun onMotionEvent(event: MotionEvent)

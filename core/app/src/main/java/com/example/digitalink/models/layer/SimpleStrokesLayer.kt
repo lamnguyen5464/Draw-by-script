@@ -10,8 +10,10 @@ import com.example.digitalink.models.moveTo
 
 open class SimpleStrokesLayer(
     internal val stroke: Path = Path(),
-    internal val strokeStyleHolder: StrokeStyleHolder = StrokeStyleHolder.defaultBlackStroke
-) : Layer() {
+    internal val strokeStyleHolder: StrokeStyleHolder = StrokeStyleHolder.defaultBlackStroke,
+    alignTopLeft: NotePoint? = null,
+    alignBottomRight: NotePoint? = null
+) : Layer(alignTopLeft = alignTopLeft, alignBottomRight = alignBottomRight) {
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawPath(stroke, strokeStyleHolder.getStyle())

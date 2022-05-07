@@ -7,21 +7,18 @@ import android.graphics.Path
 import android.view.MotionEvent
 import com.example.digitalink.models.NotePoint
 import com.example.digitalink.models.StrokeStyleHolder
+import com.example.digitalink.models.state.State
 
 class DoubleBufferLayer(
-    private val width: Int,
-    private val height: Int,
+    private val width: Int = 1,
+    private val height: Int = 1,
     private val canvasStyle: Paint = Paint(Paint.DITHER_FLAG),
+    private var cacheBitMap: Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888),
+    private var cacheCanvas: Canvas = Canvas(cacheBitMap),
+
     stroke: Path = Path(),
     strokeStyleHolder: StrokeStyleHolder = StrokeStyleHolder.defaultBlackStroke
-) : SimpleStrokesLayer(stroke, strokeStyleHolder) {
-
-    private var cacheCanvas: Canvas = Canvas()
-    private lateinit var cacheBitMap: Bitmap
-
-    init {
-        onCreate()
-    }
+) : SimpleStrokesLayer(stroke, strokeStyleHolder), State<DoubleBufferLayer> {
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawBitmap(cacheBitMap, 0f, 0f, canvasStyle)
@@ -47,12 +44,23 @@ class DoubleBufferLayer(
 
     override fun onClear() {
         super.onClear()
-        onCreate()
+        reset()
     }
 
-    private fun onCreate() {
+    private fun reset() {
         cacheBitMap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         cacheCanvas = Canvas(cacheBitMap)
+    }
+
+    override fun clone(): DoubleBufferLayer {
+        return DoubleBufferLayer(
+            width = width,
+            height = height,
+            stroke = Path(stroke),
+            cacheBitMap = Bitmap.createBitmap(cacheBitMap),
+            canvasStyle = canvasStyle,
+            strokeStyleHolder = strokeStyleHolder
+        )
     }
 
 

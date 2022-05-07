@@ -19,32 +19,35 @@ class SuggestionLayer(
     strokeStyleHolder: StrokeStyleHolder = StrokeStyleHolder.tempStroke
 ) : SimpleStrokesLayer(stroke, strokeStyleHolder) {
 
-    fun recognize(onDone: () -> Unit) {
+    fun recognize(onDone: (SimpleStrokesLayer?) -> Unit) {
         StrokeManager.recognize(inkBuilder) {
             val result = it.candidates[0].text
-            internalConstructShapeOf(result)
-            onDone()
+            onDone(
+                internalConstructShapeOf(result)
+            )
         }
     }
 
-    private fun internalConstructShapeOf(result: String) {
-        drawingSuggester.getDrawingOf(result.toLowerCase())?.let { obj ->
-            this.stroke.reset()
+    private fun internalConstructShapeOf(result: String): SimpleStrokesLayer? {
+
+        return drawingSuggester.getDrawingOf(result.toLowerCase())?.let { obj ->
+            val shape = SimpleStrokesLayer()
 
             val suggestionPaint = DrawingSuggestingItem(obj)
 
             suggestionPaint.getListScaledPoint(alignTopLeft, alignBottomRight)
                 ?.onEach { listPoints ->
                     listPoints.firstOrNull()?.also { firstPoint ->
-                        this.stroke.moveTo(firstPoint.x, firstPoint.y)
+                        shape.moveStrokeTo(NotePoint(firstPoint.x, firstPoint.y))
                     }
 
                     listPoints.forEach { point ->
                         val x = point.x
                         val y = point.y
-                        this.stroke.lineTo(x, y)
+                        shape.lineStrokeTo(NotePoint(x, y))
                     }
                 }
+            shape
         }
     }
 
