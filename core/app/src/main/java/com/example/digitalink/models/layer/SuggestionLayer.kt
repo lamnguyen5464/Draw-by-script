@@ -3,11 +3,11 @@ package com.example.digitalink.models.layer
 import android.content.Context
 import android.graphics.Path
 import android.view.MotionEvent
-import com.example.digitalink.utils.StrokeManager
 import com.example.digitalink.models.DrawingSuggester
 import com.example.digitalink.models.DrawingSuggestingItem
 import com.example.digitalink.models.NotePoint
 import com.example.digitalink.models.StrokeStyleHolder
+import com.example.digitalink.utils.StrokeManager
 import com.google.mlkit.vision.digitalink.Ink
 
 class SuggestionLayer(
@@ -33,20 +33,18 @@ class SuggestionLayer(
 
             val suggestionPaint = DrawingSuggestingItem(obj)
 
-            val paddingLeft = alignTopLeft?.x ?: 0f
-            val paddingTop = alignTopLeft?.y ?: 0f
+            suggestionPaint.getListScaledPoint(alignTopLeft, alignBottomRight)
+                ?.onEach { listPoints ->
+                    listPoints.firstOrNull()?.also { firstPoint ->
+                        this.stroke.moveTo(firstPoint.x, firstPoint.y)
+                    }
 
-            suggestionPaint.getListPoint()?.onEach { listPoints ->
-                listPoints.firstOrNull()?.also { firstPoint ->
-                    this.stroke.moveTo(firstPoint.x + paddingLeft, firstPoint.y + paddingTop)
+                    listPoints.forEach { point ->
+                        val x = point.x
+                        val y = point.y
+                        this.stroke.lineTo(x, y)
+                    }
                 }
-
-                listPoints.forEach { point ->
-                    val x = point.x + paddingLeft
-                    val y = point.y + paddingTop
-                    this.stroke.lineTo(x, y)
-                }
-            }
         }
     }
 
