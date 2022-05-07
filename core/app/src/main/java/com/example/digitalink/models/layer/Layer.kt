@@ -11,8 +11,11 @@ abstract class Layer {
     protected var childrenLayers: MutableList<Layer> = mutableListOf()
 
     abstract fun onDraw(canvas: Canvas)
-    abstract fun onClear()
     abstract fun onMotionEvent(event: MotionEvent)
+    open fun onClear() {
+        alignTopLeft = null
+        alignBottomRight = null
+    }
 
     fun append(aboveLayer: Layer) {
         if (aboveLayer.level != null) {
@@ -31,20 +34,20 @@ abstract class Layer {
     fun extend(currentPoint: Point) {
         alignTopLeft?.let {
             if (currentPoint.x < it.x) it.x = currentPoint.x
-            if (currentPoint.y > it.y) it.y = currentPoint.y
+            if (currentPoint.y < it.y) it.y = currentPoint.y
         }
 
         alignBottomRight?.let {
             if (currentPoint.x > it.x) it.x = currentPoint.x
-            if (currentPoint.y < it.y) it.y = currentPoint.y
+            if (currentPoint.y > it.y) it.y = currentPoint.y
         }
 
         if (alignTopLeft == null) {
-            alignTopLeft = currentPoint
+            alignTopLeft = currentPoint.clone()
         }
 
         if (alignBottomRight == null) {
-            alignBottomRight = currentPoint
+            alignBottomRight = currentPoint.clone()
         }
     }
 }

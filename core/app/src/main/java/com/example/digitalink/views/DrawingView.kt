@@ -19,6 +19,7 @@ class DrawingView @JvmOverloads constructor(
 
     fun suggest() {
         suggestionLayer?.recognize {
+            doubleBufferBaseLayer?.accumulate(suggestionLayer)
             invalidate()
         }
     }
@@ -33,37 +34,12 @@ class DrawingView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-//        doubleBufferBaseLayer?.onDraw(canvas)
+        doubleBufferBaseLayer?.onDraw(canvas)
         suggestionLayer?.onDraw(canvas)
-
-
-//        drawingSuggestion?.getDrawingOf(currentTag ?: "")?.let { obj ->
-//
-//            val drawing = obj.getJSONArray("drawing")
-//
-//            for (i in 0 until drawing.length()) {
-//                val stroke = drawing.getJSONArray(i)
-//                val listX = stroke.getJSONArray(0)
-//                val listY = stroke.getJSONArray(1)
-//
-//                val x = listX.getDouble(0) + 100
-//                val y = listY.getDouble(0) + 100
-//                currentStroke.moveTo(x.toFloat(), y.toFloat())
-//
-//                for (j in 1 until listX.length()) {
-//                    val x = listX.getDouble(j) + 100
-//                    val y = listY.getDouble(j) + 100
-//                    currentStroke.lineTo(x.toFloat(), y.toFloat())
-//                }
-//                drawCanvas.drawPath(currentStroke, currentStrokePaint)
-//                currentStroke.reset()
-//
-//            }
-//        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        doubleBufferBaseLayer?.onMotionEvent(event)
+//        doubleBufferBaseLayer?.onMotionEvent(event)
         suggestionLayer?.onMotionEvent(event)
         invalidate()
         return true

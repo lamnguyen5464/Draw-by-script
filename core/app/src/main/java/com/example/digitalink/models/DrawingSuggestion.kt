@@ -16,7 +16,9 @@ class DrawingSuggestion(context: Context) {
 
     fun getDrawingOf(name: String): JSONObject? {
         return try {
-            val stringData = data.getJSONArray(name).getString(0)
+            val listResult = data.getJSONArray(name)
+            val length = listResult.length()
+            val stringData = listResult.getString((0 until length).random())
             JSONObject(stringData)
         } catch (_: Exception) {
             null

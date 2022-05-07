@@ -1,25 +1,27 @@
 package com.example.digitalink.models.layer
 
 import android.content.Context
+import android.graphics.Path
 import android.view.MotionEvent
 import com.example.digitalink.StrokeManager
 import com.example.digitalink.models.DrawingSuggestion
+import com.example.digitalink.models.DrawingSuggestionItem
 import com.example.digitalink.models.Point
+import com.example.digitalink.models.StrokeStyle
 import com.google.mlkit.vision.digitalink.Ink
 
 class SuggestionLayer(
     context: Context,
     private var inkBuilder: Ink.Builder = Ink.builder(),
     private var strokeBuilder: Ink.Stroke.Builder = Ink.Stroke.builder(),
-    private val drawingSuggestion: DrawingSuggestion = DrawingSuggestion(context)
-) : SimpleStrokesLayer() {
+    private val drawingSuggestion: DrawingSuggestion = DrawingSuggestion(context),
+    stroke: Path = Path(),
+    strokeStyle: StrokeStyle = StrokeStyle.tempStroke
+) : SimpleStrokesLayer(stroke, strokeStyle) {
 
     fun recognize(onDone: () -> Unit) {
         StrokeManager.recognize(inkBuilder) {
             val result = it.candidates[0].text
-
-            it.candidates.forEach { res -> println("@@ $res") }
-
             internalConstructShapeOf(result)
             onDone()
         }
@@ -29,24 +31,20 @@ class SuggestionLayer(
         drawingSuggestion.getDrawingOf(result.toLowerCase())?.let { obj ->
             this.stroke.reset()
 
-            val drawing = obj.getJSONArray("drawing")
+            val suggestionPaint = DrawingSuggestionItem(obj)
 
             val paddingLeft = alignTopLeft?.x ?: 0f
             val paddingTop = alignTopLeft?.y ?: 0f
 
-            for (i in 0 until drawing.length()) {
-                val stroke = drawing.getJSONArray(i)
-                val listX = stroke.getJSONArray(0)
-                val listY = stroke.getJSONArray(1)
+            suggestionPaint.getListPoint()?.onEach { listPoints ->
+                listPoints.firstOrNull()?.also { firstPoint ->
+                    this.stroke.moveTo(firstPoint.x + paddingLeft, firstPoint.y + paddingTop)
+                }
 
-                var x = listX.getDouble(0) + paddingLeft
-                var y = listY.getDouble(0) + paddingTop
-                this.stroke.moveTo(x.toFloat(), y.toFloat())
-
-                for (j in 1 until listX.length()) {
-                    x = listX.getDouble(j) + paddingLeft
-                    y = listY.getDouble(j) + paddingTop
-                    this.stroke.lineTo(x.toFloat(), y.toFloat())
+                listPoints.forEach { point ->
+                    val x = point.x + paddingLeft
+                    val y = point.y + paddingTop
+                    this.stroke.lineTo(x, y)
                 }
             }
         }

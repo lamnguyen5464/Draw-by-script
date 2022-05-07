@@ -21,6 +21,7 @@ open class SimpleStrokesLayer(
     }
 
     override fun onClear() {
+        super.onClear()
         this.stroke.reset()
     }
 
@@ -42,5 +43,10 @@ open class SimpleStrokesLayer(
 
     internal fun lineStrokeTo(point: Point) {
         this.stroke.lineTo(point)
+    }
+
+    fun accumulate(layer: SimpleStrokesLayer) {
+        this.stroke.addPath(layer.stroke)
+        layer.onClear()
     }
 }
