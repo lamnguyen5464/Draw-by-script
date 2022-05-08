@@ -4,43 +4,23 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
+import com.example.canvas.di.Providers
 import com.example.canvas.models.DrawingSuggester
-import com.example.canvas.models.DrawingSuggestingItem
-import com.example.canvas.models.NotePoint
 import com.example.canvas.models.layer.SimpleStrokesLayer
 
 class SuggestQuickView(
     context: Context?,
-    attributeSet: AttributeSet? = null
+    attributeSet: AttributeSet? = null,
+    private val tag: String,
+    private val index: Int
 ) : View(context, attributeSet) {
 
-    private val drawingSuggester: DrawingSuggester = DrawingSuggester()
+    private val drawingSuggester: DrawingSuggester = Providers.drawingSuggester
 
     override fun onDraw(canvas: Canvas) {
-        val drawer = internalConstructShapeOf("cat")
+        val drawer = drawingSuggester.constructShapeOf(tag, index)
         drawer?.onDraw(canvas)
     }
 
-    private fun internalConstructShapeOf(result: String): SimpleStrokesLayer? {
-        return drawingSuggester.getDrawingOf(result.toLowerCase())?.let { obj ->
-            val shape = SimpleStrokesLayer()
-
-            val suggestionPaint = DrawingSuggestingItem(obj)
-
-            suggestionPaint.getListScaledPoint(null, null)
-                ?.onEach { listPoints ->
-                    listPoints.firstOrNull()?.also { firstPoint ->
-                        shape.moveStrokeTo(NotePoint(firstPoint.x, firstPoint.y))
-                    }
-
-                    listPoints.forEach { point ->
-                        val x = point.x
-                        val y = point.y
-                        shape.lineStrokeTo(NotePoint(x, y))
-                    }
-                }
-            shape
-        }
-    }
-
+    fun getShape(): SimpleStrokesLayer? = drawingSuggester.constructShapeOf(tag, index)
 }

@@ -6,47 +6,74 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import com.example.canvas.di.Providers
 import com.example.canvas.models.layer.DoubleBufferLayer
+import com.example.canvas.models.layer.SimpleStrokesLayer
 import com.example.canvas.models.layer.SuggestionLayer
 import com.example.canvas.models.state.StateHolder
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class NoteView @JvmOverloads constructor(
+class NoteCanvas @JvmOverloads constructor(
     context: Context?,
     attributeSet: AttributeSet? = null
 ) : View(context, attributeSet) {
 
-    private val suggestionLayer = context?.let { SuggestionLayer(it) }
+    private val suggestionLayer = SuggestionLayer()
+    private var latestUpdatingLayer: SimpleStrokesLayer? = null
     private val debounceSuggestingScope = CoroutineScope(Dispatchers.IO + Job())
     private var suggestingJob: Job? = null
+    private val drawingSuggester = Providers.drawingSuggester
 
+    private val suggestionEmitter = MutableStateFlow("")
+
+    fun onEmittingSuggestion() = suggestionEmitter
 
     private val baseLayerState = StateHolder(
         initStateProducer = { DoubleBufferLayer() },
         triggerOnChange = { invalidate() }
     )
 
-    private fun confirmDrawing() {
-        suggestionLayer?.let {
-            suggestionLayer.recognize { recognizedShape ->
-                val currentLayer = baseLayerState.getState().clone()
-                val currentLayerRaw = currentLayer.clone()
-                currentLayerRaw.accumulate(suggestionLayer)
-                suggestionLayer.onClear()
-                baseLayerState.setState(state = currentLayerRaw)
-
-                recognizedShape?.let {
-                    val layerAuto = currentLayer.clone()
-                    layerAuto.accumulate(recognizedShape)
-                    baseLayerState.setState(state = layerAuto)
-                }
-                startSuggesting()
+    fun onUpdateSuggestionDrawing(tag: String, index: Int) {
+        val newShape = drawingSuggester.constructShapeOf(
+            tag = tag,
+            index = index,
+            baseTopLeft = latestUpdatingLayer?.alignTopLeft,
+            baseBottomRight = latestUpdatingLayer?.alignBottomRight
+        )
+        println("@@ " + latestUpdatingLayer?.alignBottomRight)
+        if (newShape != null) {
+            baseLayerState.modifyNearestOfLastState { baseLayer ->
+                baseLayer.accumulate(newShape)
             }
+            suggestionEmitter.value = ""
+        }
+    }
+
+    private fun confirmDrawing() {
+        suggestionEmitter.value = ""
+        suggestionLayer.recognize { tag ->
+
+            latestUpdatingLayer = suggestionLayer.clone()
+
+            baseLayerState.modifyLastState {
+                it.accumulate(suggestionLayer)
+                suggestionLayer.onClear()
+            }
+
+
+            if (tag.isNotEmpty()) {
+                suggestionEmitter.value = tag
+//                baseLayerState.modifyNearestOfLastState {
+//                    it.accumulate(recognizedShape)
+//                }
+            }
+            startSuggesting()
         }
     }
 
     private fun startSuggesting() {
-        if (suggestionLayer?.isEmpty() == false) {
+        if (!suggestionLayer.isEmpty()) {
             suggestingJob?.cancel()
             suggestingJob = debounceSuggestingScope.launch {
                 delay(500)
@@ -67,11 +94,11 @@ class NoteView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         baseLayerState.getState().onDraw(canvas)
-        suggestionLayer?.onDraw(canvas)
+        suggestionLayer.onDraw(canvas)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        suggestionLayer?.onMotionEvent(event)
+        suggestionLayer.onMotionEvent(event)
         startSuggesting()
         invalidate()
         return true
@@ -86,8 +113,8 @@ class NoteView @JvmOverloads constructor(
     }
 
     fun clear() {
-        suggestionLayer?.onClear()
-        baseLayerState.modifyState {
+        suggestionLayer.onClear()
+        baseLayerState.modifyLastState {
             it.onClear()
         }
     }

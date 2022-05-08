@@ -15,8 +15,14 @@ class StateHolder<T : State<T>>(
         triggerOnChange()
     }
 
-    fun modifyState(modifier: (T) -> Unit) {
+    fun modifyLastState(modifier: (T) -> Unit) {
         val stateToSave = currentState.clone()
+        modifier(stateToSave)
+        setState(stateToSave)
+    }
+
+    fun modifyNearestOfLastState(modifier: (T) -> Unit) {
+        val stateToSave = listOldStates[listOldStates.size - 1].clone()
         modifier(stateToSave)
         setState(stateToSave)
     }

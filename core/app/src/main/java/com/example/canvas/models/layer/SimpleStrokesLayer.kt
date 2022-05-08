@@ -31,10 +31,13 @@ open class SimpleStrokesLayer(
         val action = event.actionMasked
         val x = event.x
         val y = event.y
+
+        val notePoint = NotePoint(x, y)
+        this.extend(notePoint)
         when (action) {
-            MotionEvent.ACTION_DOWN -> moveStrokeTo(NotePoint(x, y))
+            MotionEvent.ACTION_DOWN -> moveStrokeTo(notePoint)
             MotionEvent.ACTION_MOVE,
-            MotionEvent.ACTION_UP -> lineStrokeTo(NotePoint(x, y))
+            MotionEvent.ACTION_UP -> lineStrokeTo(notePoint)
             else -> {}
         }
     }
@@ -52,4 +55,11 @@ open class SimpleStrokesLayer(
     }
 
     fun isEmpty() = this.stroke.isEmpty
+
+    open fun clone(): SimpleStrokesLayer = SimpleStrokesLayer(
+        stroke = Path(this.stroke),
+        strokeStyleHolder = strokeStyleHolder,
+        alignTopLeft = this.alignTopLeft?.clone(),
+        alignBottomRight = this.alignBottomRight?.clone()
+    )
 }

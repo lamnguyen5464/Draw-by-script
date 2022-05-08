@@ -52,6 +52,10 @@ class DoubleBufferLayer(
         cacheCanvas = Canvas(cacheBitMap)
     }
 
+    fun replaceStroke(newStroke: Path) {
+        this.stroke.set(newStroke)
+    }
+
     override fun clone(): DoubleBufferLayer {
         return DoubleBufferLayer(
             width = width,
