@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.example.canvas.di.Providers
 import com.example.canvas.models.DrawingSuggester
+import com.example.canvas.models.NotePoint
 import com.example.canvas.models.layer.SimpleStrokesLayer
 
 class SuggestQuickView(
@@ -18,7 +19,12 @@ class SuggestQuickView(
     private val drawingSuggester: DrawingSuggester = Providers.drawingSuggester
 
     override fun onDraw(canvas: Canvas) {
-        val drawer = drawingSuggester.constructShapeOf(tag, index)
+        val drawer = drawingSuggester.constructShapeOf(
+            tag = tag,
+            index = index,
+            baseTopLeft = NotePoint(0f, 0f),
+            baseBottomRight = NotePoint(200f, 200f)
+        )
         drawer?.onDraw(canvas)
     }
 

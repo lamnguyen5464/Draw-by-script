@@ -1,8 +1,11 @@
 package com.example.canvas
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
+import androidx.core.view.marginTop
 import com.example.canvas.di.Providers
 import com.example.canvas.utils.StrokeManager
 import com.example.canvas.viewModels.NoteViewModel
@@ -60,13 +63,12 @@ class NotePlayGround : Activity() {
                     tag = tag,
                     index = index
                 )
-                quickView.minimumWidth = 100
+                quickView.minimumWidth = 200
                 quickView.minimumHeight = 200
 
                 quickView.setOnClickListener {
                     drawingView.onUpdateSuggestionDrawing(tag, index)
                 }
-
                 listQuickSuggestions.addView(quickView)
             }
         }

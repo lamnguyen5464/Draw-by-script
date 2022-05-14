@@ -42,7 +42,7 @@ class DrawingSuggester(
         baseBottomRight: NotePoint? = null
     ): SimpleStrokesLayer? {
         return this.getDrawingOf(tag.toLowerCase(), index)?.let { obj ->
-            val shape = SimpleStrokesLayer()
+            val shape = SimpleStrokesLayer(strokeStyleHolder = StrokeStyleHolder.tempStroke)
 
             val suggestionPaint = DrawingSuggestingItem(obj)
 

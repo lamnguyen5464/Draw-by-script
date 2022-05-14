@@ -76,7 +76,7 @@ class NoteCanvas @JvmOverloads constructor(
         if (!suggestionLayer.isEmpty()) {
             suggestingJob?.cancel()
             suggestingJob = debounceSuggestingScope.launch {
-                delay(500)
+                delay(700)
                 confirmDrawing()
             }
         }
