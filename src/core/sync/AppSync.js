@@ -27,11 +27,13 @@ const AppSync = () => {
         const data = userProfile.get() || {};
         const { accessToken } = data;
 
-        if (!!accessToken) {
-            activateMainApp();
-        } else {
-            deactivateMainAppStack();
-        }
+        activateMainApp();
+
+        // if (!!accessToken) {
+        //     activateMainApp();
+        // } else {
+        //     deactivateMainAppStack();
+        // }
     }, [userProfile.get()]);
 
     useEffect(() => {

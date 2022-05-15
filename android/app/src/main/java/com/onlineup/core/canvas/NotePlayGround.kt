@@ -55,7 +55,7 @@ class NotePlayGround : Activity() {
             listQuickSuggestionsView.visibility = View.VISIBLE
             listQuickSuggestions.removeAllViews()
 
-            (0..10).forEach { index ->
+            (0..30).forEach { index ->
                 val quickView = SuggestQuickView(
                     context = applicationContext,
                     tag = tag,

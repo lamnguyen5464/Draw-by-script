@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotePlayGround">
+    tools:context=".core.canvas.NotePlayGround">
 
     <com.onlineup.core.canvas.views.NoteCanvas
         android:id="@+id/drawingView"
@@ -24,8 +24,8 @@
         android:text="Undo"
         android:textColor="@android:color/white"
         app:backgroundTint="@color/ORANGE_04"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         />
 
 
@@ -37,16 +37,16 @@
         android:text="Clear"
         android:textColor="@android:color/white"
         app:backgroundTint="@color/ORANGE_04"
-        app:layout_constraintRight_toLeftOf="@+id/undo"
+        app:layout_constraintLeft_toRightOf="@+id/undo"
         app:layout_constraintTop_toTopOf="parent"
         />
 
     <ScrollView
         android:id="@+id/listQuickSuggestionsView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/undo"
+        android:layout_height="match_parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
         >
 
         <LinearLayout
