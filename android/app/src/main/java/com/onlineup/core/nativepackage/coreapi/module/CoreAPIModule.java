@@ -1,5 +1,7 @@
 package com.onlineup.core.nativepackage.coreapi.module;
 
+import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -9,12 +11,15 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.onlineup.core.canvas.NotePlayGround;
 import com.onlineup.core.nativepackage.coreapi.constant.KeyCommonNative;
 import com.onlineup.core.storage.StorageInstance;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class CoreAPIModule extends ReactContextBaseJavaModule {
     public static String MODULE_NAME = "CoreAPIModule";
@@ -85,6 +90,12 @@ public class CoreAPIModule extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             promise.reject(e);
         }
+    }
+
+    @ReactMethod
+    public void openCanvas(ReadableMap configs) {
+        Intent intent = new Intent(getCurrentActivity(), NotePlayGround.class);
+        Objects.requireNonNull(getCurrentActivity()).startActivity(intent);
     }
 
 }

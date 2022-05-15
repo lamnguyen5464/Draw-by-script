@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.WritableMap;
+import com.onlineup.core.canvas.NotePlayGround;
 import com.onlineup.core.deeplink.AppLink;
 import com.onlineup.core.nativepackage.facebook.FacebookSDKModule;
 import com.onlineup.core.nativepackage.qrcode.view.scanner.QRCodeScannerActivity;

@@ -317,6 +317,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				2971E3C70F204CD4CF29009D /* [CP] Copy Pods Resources */,
+				923D504EE8BD96C6528B6D57 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -339,6 +340,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				7E49E40899182A534B4C93AF /* [CP] Copy Pods Resources */,
+				5CF55FE19AB59FA74620107F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -474,6 +476,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-onLineUp-onLineUpTests/Pods-onLineUp-onLineUpTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		5CF55FE19AB59FA74620107F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-onLineUp/Pods-onLineUp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-onLineUp/Pods-onLineUp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-onLineUp/Pods-onLineUp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7E49E40899182A534B4C93AF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -489,6 +508,23 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-onLineUp/Pods-onLineUp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		923D504EE8BD96C6528B6D57 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-onLineUp-onLineUpTests/Pods-onLineUp-onLineUpTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-onLineUp-onLineUpTests/Pods-onLineUp-onLineUpTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-onLineUp-onLineUpTests/Pods-onLineUp-onLineUpTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ADD3C7293D904A1778B6D1C9 /* [CP] Check Pods Manifest.lock */ = {
