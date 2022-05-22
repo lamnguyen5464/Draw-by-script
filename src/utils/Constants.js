@@ -13,6 +13,8 @@ const TextSize = {
     H2: 24,
     H3: 20,
     H4: 16,
+    H5: 12,
+    H6: 8,
     Title: 14,
     SubTitle: 12,
     Caption: 10,

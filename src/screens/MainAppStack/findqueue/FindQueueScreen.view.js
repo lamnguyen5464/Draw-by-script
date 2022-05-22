@@ -42,7 +42,7 @@ const FindQueueScreen = props => {
                     icon={'search'}
                     containerStyle={styles.search_bar}
                     onFocus={() => {}}
-                    placeholder={'Search your queue here'}
+                    placeholder={'Search your note here'}
                 />
                 <TouchableOpacity activeOpacity={0.8} onPress={onPressClose}>
                     <CustomizedText type={'simple'}>Close</CustomizedText>

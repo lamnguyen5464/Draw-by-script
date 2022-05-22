@@ -21,7 +21,7 @@ const MainScreen = props => {
                 onPress={onPressCreate}
                 type={'primary'}
             >
-                + Create queue
+                + Create note
             </CustomizedButton>
         );
     };
@@ -56,7 +56,6 @@ const MainScreen = props => {
                 initialPage={0}
             >
                 <HomeScreen tabLabel="home" key={`tab_view_00`} navigation={navigation} />
-                <HomeScreen tabLabel="reader" key={`tab_view_01`} navigation={navigation} />
             </ScrollableTabView>
         </View>
     );

@@ -38,7 +38,6 @@ const useHomeScreen = props => {
         joinedQueue,
         isSearching,
         refInputSearch,
-
         goToQueueDetail,
 
         startSearching: () => {
@@ -60,6 +59,10 @@ const useHomeScreen = props => {
                 console.log('e', e);
             }
         },
+
+        // goToAuth: () => {
+        //     AppNavigator.deactivateMainAppStack();
+        // },
     };
 };
 

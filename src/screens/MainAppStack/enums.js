@@ -3,6 +3,7 @@ const APP_STACKS_ENUMS = {
     HomeScreen: 'HomeScreen',
     FindQueueScreen: 'FindQueueScreen',
     QueueDetail: 'QueueDetail',
+    AuthSignIn: 'AuthStack',
 };
 
 export default APP_STACKS_ENUMS;
